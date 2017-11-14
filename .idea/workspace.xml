@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6f5b71f-27ed-46f8-b93c-4140266f5215" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/trading/test_power.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pwrreport/report_example.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pwrreport/report_example2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/trading/Power_2017_3.csv" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/trading/Power_2017.csv" afterPath="$PROJECT_DIR$/trading/Power_2017.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/trading/Power_2017_1.csv" afterPath="$PROJECT_DIR$/trading/Power_2017_1.csv" />
@@ -35,8 +31,8 @@
       <file leaf-file-name="Trading_logic.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trading/Trading_logic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45987654">
-              <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.7895623">
+              <caret line="98" column="44" selection-start-line="98" selection-start-column="44" selection-end-line="98" selection-end-column="44" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -315,7 +311,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21624714" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27803203" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -365,8 +361,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trading/Trading_logic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45987654">
-          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.7895623">
+          <caret line="98" column="44" selection-start-line="98" selection-start-column="44" selection-end-line="98" selection-end-column="44" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>

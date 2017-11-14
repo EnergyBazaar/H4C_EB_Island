@@ -49,7 +49,7 @@ energy_per_charge_per_percent = 5 #number of KW energy it takes to charge the de
 Trading_energy=[0]*len(Power)
 From = [0]*len(Power)
 To = [0]*len(Power)
-for i in range(size_prices[0]):
+for i in range(len(Power)):
     price = Power.get_value(i, "prices")
     #Scenario 1: if the price is less than the price limit
     if price < price_limit:
@@ -96,5 +96,6 @@ Power['To']=To
 Power.to_csv("Power_2017.csv", encoding='utf-8', index=False)
 
 Power_final = Power.loc[:, ['timestamp','From','To','Traded_energy','prices']]
+Power_final = Power_final[Power_final.From != 0]
 Power_final.to_csv("Trading_file.csv", encoding='utf-8', index=False)
 
