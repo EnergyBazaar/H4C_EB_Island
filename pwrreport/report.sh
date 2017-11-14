@@ -26,7 +26,7 @@ get_current_power() {
 	PREVIOUS_TIME=$CURRENT_TIME;
 	while true; do
 		CURRENT_POWER=`curl -s "$URL" | jq .power`;
-		CURRENT_POWER=`( echo -n $CURRENT_POWER && echo 000 ) | sed 's/\\(.*\)\.\(...\).*/\1\2/'` # multiply power by 1000 to make it more interesting
+		CURRENT_POWER=`( echo -n $CURRENT_POWER && echo 000 ) | sed 's/^0\?\(.*\)\.\(...\).*/\1\2/'` # multiply power by 1000 to make it more interesting
 		update_current_time;
 		if [ $PREVIOUS_TIME -ne $CURRENT_TIME ]; then
 			TIMEDIFF=$[CURRENT_TIME - PREVIOUS_TIME]
