@@ -69,21 +69,24 @@ contract Record {
   function energyTransactRecord(address _to, uint _p) participantOnly(_to) participantOnly(msg.sender) returns (bool) {
     //require(assertMeterIn(msg.sender));
     address requester = msg.sender;
-    //if (ExternalStorage(dataStorageAdr).isNodesConnected(msg.sender, requester)) {
+    if (ExternalStorage(dataStorageAdr).isNodesConnected(msg.sender, requester)) {
       ExternalStorage(dataStorageAdr).setEnergy(requester, -int(_p));
       ExternalStorage(dataStorageAdr).setEnergy(_to,int(_p));
       return true;
-    //} else {
-    //  return false;
-    //}
+    } else {
+      return false;
+    }
   }
 
-  function balanceTransactRecord(address _to, int _p) participantOnly(_to) participantOnly(msg.sender) returns (bool) {
+  function balanceTransactRecord(address _to, uint _p) participantOnly(_to) participantOnly(msg.sender) payable returns (bool) {
     //require(assertMeterIn(msg.sender));
     address requester = msg.sender;
     if (ExternalStorage(dataStorageAdr).isNodesConnected(msg.sender, requester)) {
-      ExternalStorage(dataStorageAdr).setBalance(requester, _p);
+      // Solution 1: recording financial settlement via integers
+      ExternalStorage(dataStorageAdr).setBalance(requester, -_p);
       ExternalStorage(dataStorageAdr).setBalance(_to, _p);
+      // Solution 2: recording the financial settlement via ethers
+      _to.send(_p*3000000000000000);    // change to wei
       return true;
     } else {
       return false;

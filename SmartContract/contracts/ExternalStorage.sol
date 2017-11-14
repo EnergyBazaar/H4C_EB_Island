@@ -3,8 +3,8 @@ pragma solidity ^0.4.8;
 contract ExternalStorage {
 
   struct Portefeuille {
-    int    energyAccumul;
-    int    balance;
+    int     energyAccumul;
+    uint    balance;
     uint    islandID;
   }
   
@@ -21,7 +21,7 @@ contract ExternalStorage {
   // Simple set and get functions
 
   function addMeter(address mAdr, uint ilID) {
-    profil[mAdr] = Portefeuille(0,0,ilID);
+    profil[mAdr] = Portefeuille(0,100,ilID);    //By default we allocatoin 100 points into the account
     setConnection(ilID,ilID);
 
     // For now we do not delete the smart meter or disenable it..... (it mighted be a dead smart meter placed in the network)
@@ -40,12 +40,12 @@ contract ExternalStorage {
     return profil[mAdr].energyAccumul;
   }
 
-  function setBalance(address mAdr, int balanceDelta) {
+  function setBalance(address mAdr, uint balanceDelta) {
     // require... assert the address is in the network...
     profil[mAdr].balance += balanceDelta;
   }
 
-  function getBalance(address mAdr) returns(int) {
+  function getBalance(address mAdr) returns(uint) {
     return profil[mAdr].balance;
   }
 
