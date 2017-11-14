@@ -3,7 +3,7 @@ pragma solidity ^0.4.8;
 contract ExternalStorage {
 
   struct Portefeuille {
-    int     energyAccumul;
+    int    energyAccumul;
     int    balance;
     uint    islandID;
   }
@@ -25,6 +25,10 @@ contract ExternalStorage {
     setConnection(ilID,ilID);
 
     // For now we do not delete the smart meter or disenable it..... (it mighted be a dead smart meter placed in the network)
+  }
+
+  function getMeter(address mAdr) returns(uint) {
+    return profil[mAdr].islandID;
   }
 
   function setEnergy(address mAdr, int energyDelta) {
