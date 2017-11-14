@@ -6,7 +6,7 @@
 # There is zero error control right now.
 
 URL="http://192.168.1.11/report"
-OUTPUT="report.csv"
+OUTPUT="power2017.csv"
 
 INTERVAL_DIFF=900
 PREVIOUS_TIME=0
