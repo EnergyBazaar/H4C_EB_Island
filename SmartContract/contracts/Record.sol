@@ -3,16 +3,10 @@ pragma solidity ^0.4.8;
 import "./ExternalStorage.sol";
 
 contract Record {
-  /*address _id;
-  int     power;
-
-  address generator;
-  address consumer;*/
   address   adminAdr;
   address   dataStorageAdr;
   address[] meterAdrs;
 
-  //event RecordConsumption(bytes _id, uint timeStamp);
   event RecordTransaction(bytes _from, bytes _to, uint _measuredAt);
 
   modifier adminOnly {
@@ -48,6 +42,9 @@ contract Record {
     
   }
 
+  function getdSadr() returns(address) {
+    return dataStorageAdr;
+  }
   function addMeter(address mAdr, uint ilID) {
     require(!assertMeterIn(mAdr));
     meterAdrs.push(mAdr);
@@ -55,21 +52,30 @@ contract Record {
     // For now we do not delete the smart meter or disenable it..... (it mighted be a dead smart meter placed in the network)
   }
 
+  function getMeter(address mAdr) returns(uint) {
+    return ExternalStorage(dataStorageAdr).getMeter(mAdr);
+  }
+
+  function setIslandId(address adr, uint _id) {
+    ExternalStorage(dataStorageAdr).setIslandId(adr, _id);
+  }
+
   function setConnection(uint _id1, uint _id2) adminOnly {
     ExternalStorage(dataStorageAdr).setConnection(_id1, _id2);
   }
 
 
+
   function energyTransactRecord(address _to, uint _p) participantOnly(_to) participantOnly(msg.sender) returns (bool) {
     //require(assertMeterIn(msg.sender));
     address requester = msg.sender;
-    if (ExternalStorage(dataStorageAdr).isNodesConnected(msg.sender, requester)) {
-      ExternalStorage(dataStorageAdr).setEnergy(requester, int(_p));
-      ExternalStorage(dataStorageAdr).setEnergy(_to, int(_p));
+    //if (ExternalStorage(dataStorageAdr).isNodesConnected(msg.sender, requester)) {
+      ExternalStorage(dataStorageAdr).setEnergy(requester, -int(_p));
+      ExternalStorage(dataStorageAdr).setEnergy(_to,int(_p));
       return true;
-    } else {
-      return false;
-    }
+    //} else {
+    //  return false;
+    //}
   }
 
   function balanceTransactRecord(address _to, int _p) participantOnly(_to) participantOnly(msg.sender) returns (bool) {
@@ -98,5 +104,13 @@ contract Record {
 
   function getAddress(uint _id) returns(address) {
     return meterAdrs[_id];
+  }
+
+  function getEnergy(address adr) returns(int) {
+    return ExternalStorage(dataStorageAdr).getEnergy(adr);
+  }
+
+  function setEnergy(address adr, int vol) returns(int) {
+   ExternalStorage(dataStorageAdr).setEnergy(adr,vol);
   }
 }
