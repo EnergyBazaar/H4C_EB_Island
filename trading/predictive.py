@@ -2,13 +2,6 @@ import pandas as pd
 import numpy as np
 from Naked.toolshed.shell import execute_js,muterun_js
 import sys
-import json, urllib.request
-import csv
-
-with urllib.request.urlopen("https://www.energy-charts.de/price/week_2017_44.json") as url:
-    data = json.loads(url.read().decode())
-
-
 
 #get the time and price dataframe
 df_prices = pd.read_csv('Prices_2017.csv')
@@ -37,6 +30,8 @@ Power['Battery_status_2']=np.random.randint(1,100,Power.shape[0])
 
 #set limit for prices and store energy
 price_limit = Power["prices"].mean()
+
+
 
 #trade between all the devices
 time_per_charge_1_percent = 1/15 #1 time interval i.e. takes 1 minutes to charge 1%
