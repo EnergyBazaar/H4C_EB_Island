@@ -5,11 +5,16 @@ import sys
 import json, urllib.request
 import csv
 
-with urllib.request.urlopen("https://www.energy-charts.de/price/week_2017_44.json") as url:
+with urllib.request.urlopen("https://www.energy-charts.de/price/week_2017_45.json") as url:
     data = json.loads(url.read().decode())
+all_prices = data[1]["values"]
+with open('Prices_2017.csv','w',newline='') as csvfile:
+    spamwriter = csv.writer(csvfile)
+    spamwriter.writerow(['Timestamp','prices'])
+    for i in range(len(all_prices)):
+        spamwriter.writerow(all_prices[i])
 
-
-
+print("bbbb")
 #get the time and price dataframe
 df_prices = pd.read_csv('Prices_2017.csv')
 df1_prices = df_prices.set_index("Timestamp")
