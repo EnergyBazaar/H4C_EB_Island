@@ -34,6 +34,7 @@ contract ExternalStorage {
   function setEnergy(address mAdr, int energyDelta) {
     // require... assert the address is in the network...
     profil[mAdr].energyAccumul += energyDelta;
+
   }
 
   function getEnergy(address mAdr) returns(int) {

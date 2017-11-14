@@ -41,13 +41,26 @@ contract('Test One Energy Island', function(accounts) {
       return record.getEnergy.call(address_m1);
     }).then(function(result){
       console.log("The current energy balance of account 1 is =", result.toNumber());
-      record.energyTransactRecord(address_m1,50, {from: address_m0});
+      return record.getBalance.call({from: address_m0});
+    }).then(function(result){
+      console.log("The current ether balance of account 0 is =", result.toNumber());
+      return record.getBalance.call({from: address_m1});
+    }).then(function(result){
+      console.log("The current ether balance of account 1 is =", result.toNumber());
+      //record.energyTransactRecord(address_m1,50, {from: address_m0});
+      record.receiveEthers(address_m1, {value:150000000, from: address_m0});
       return record.getEnergy.call(address_m0);
     }).then(function(result){
       console.log("The current energy balance of account 0 is =", result.toNumber());
       return record.getEnergy.call(address_m1);
     }).then(function(result){
       console.log("The current energy balance of account 1 is =", result.toNumber());
+      return record.getBalance.call({from: address_m0});
+    }).then(function(result){
+      console.log("The current ether balance of account 0 is =", result.toNumber());
+      return record.getBalance.call({from: address_m1});
+    }).then(function(result){
+      console.log("The current ether balance of account 1 is =", result.toNumber());
     });    
   });
 
