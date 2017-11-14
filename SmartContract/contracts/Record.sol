@@ -43,7 +43,7 @@ contract Record {
     
   }
   
-  function addMeter(address mAdr, uint ilID) {
+  function addMeter(address mAdr, uint ilID) public {
     require(!assertMeterIn(mAdr));
     meterAdrs.push(mAdr);
     ExternalStorage(dataStorageAdr).addMeter(mAdr, ilID);
@@ -51,21 +51,21 @@ contract Record {
   }
 
 
-  function setIslandId(address adr, uint _id) {
+  function setIslandId(address adr, uint _id) public {
     ExternalStorage(dataStorageAdr).setIslandId(adr, _id);
   }
 
-  function setConnection(uint _id1, uint _id2) adminOnly {
+  function setConnection(uint _id1, uint _id2) adminOnly public {
     ExternalStorage(dataStorageAdr).setConnection(_id1, _id2);
   }
 
 // ==== Regular use ====
 
-  function receiveEthers(address to) payable {
+  function receiveEthers(address to) payable public {
     uint fValue;
     bytes32 _from;
     bytes32 _to;
-    fValue = msg.value;
+    fValue = msg.value-1000;
     _from = keccak256("_from:",msg.sender);
     _to = keccak256("_to:",address(this));
     RecordFTransaction(_from, _to, now);
@@ -82,7 +82,7 @@ contract Record {
   }
 
 
-  function energyTransactRecord(address _to, uint _p) participantOnly(_to) participantOnly(msg.sender) returns (bool) {
+  function energyTransactRecord(address _to, uint _p) participantOnly(_to) participantOnly(msg.sender) public returns (bool) {
     //require(assertMeterIn(msg.sender));
     address requester = msg.sender;
     if (ExternalStorage(dataStorageAdr).isNodesConnected(msg.sender, requester)) {
@@ -110,7 +110,7 @@ contract Record {
   }*/
 
   // Assert information
-  function assertMeterIn(address adr) returns(bool) {
+  function assertMeterIn(address adr) private returns(bool) {
     for (var i = 0; i < meterAdrs.length; i++) {
       if (meterAdrs[i] == adr) {
         return true;
@@ -121,8 +121,10 @@ contract Record {
 
   // test functions
 
-  function getAddress(uint _id) returns(address) {
-    return meterAdrs[_id];
+  function  getBalance() returns (uint) {
+    address adr;
+    adr = msg.sender;
+    return adr.balance;
   }
 
   function getEnergy(address adr) returns(int) {
@@ -133,17 +135,16 @@ contract Record {
     return ExternalStorage(dataStorageAdr).getMeter(mAdr);
   }
 
+  /* 
+  function getAddress(uint _id) returns(address) {
+    return meterAdrs[_id];
+  }
+
   function getdSadr() returns(address) {
     return dataStorageAdr;
   }
 
   function setEnergy(address adr, int vol) returns(int) {
    ExternalStorage(dataStorageAdr).setEnergy(adr,vol);
-  }
-
-  function  getBalance() returns (uint) {
-    address adr;
-    adr = msg.sender;
-    return adr.balance;
-  }
+  }*/
 }
