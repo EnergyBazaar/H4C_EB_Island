@@ -14,7 +14,6 @@ with open('Prices_2017.csv','w',newline='') as csvfile:
     for i in range(len(all_prices)):
         spamwriter.writerow(all_prices[i])
 
-print("bbbb")
 #get the time and price dataframe
 df_prices = pd.read_csv('Prices_2017.csv')
 df1_prices = df_prices.set_index("Timestamp")
@@ -32,6 +31,7 @@ for num in range(total_devices):
 merged = pd.concat(dfs,axis=1)
 merged['timestamp'] = df_prices.iloc[:,0]
 merged['prices'] = df_prices.iloc[:,1]
+merged.to_csv('Power_2017.csv')
 
 # get the price and the battery status for all the devices
 Power = pd.read_csv("Power_2017.csv")
@@ -59,7 +59,7 @@ for i in range(size_prices[0]):
             if Power.get_value(i,"Battery_status_1")<70:
                 Power.ix[i,"Battery_status_1"] = 70
             # if the higher consumption device has storage energy, then trade to the other device
-            else:
+            if Power.get_value(i,"Battery_status_2")<70:
                 Trading_energy[i] = (70 - Power.ix[i,"Battery_status_2"])/energy_per_charge_per_percent
                 Power.ix[i,"Battery_status_2"] = 70
                 if Trading_energy[i]>0:
@@ -69,18 +69,15 @@ for i in range(size_prices[0]):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then end-do nothing: triggers js
-            # response = muterun_js('power_off.js')
-            # if response.exitcode == 0:
-            #     print(response.stdout)
             # else:
-            #     sys.stderr.write(response.stderr)
+            #     urllib.request.urlopen("http://192.168.1.11/toggle")
 
         if Power.get_value(i,"Device_1") < Power.get_value(i,"Device_2"):
             # if the higher consumption device has has no storage energy, then charge it
             if Power.get_value(i,"Battery_status_2")<70:
                 Power.ix[i,"Battery_status_2"] = 70
             # if the higher consumption device has storage energy, then trade to the other device
-            else:
+            if Power.get_value(i,"Battery_status_1")<70:
                 Trading_energy[i] = (70 - Power.ix[i,"Battery_status_1"])/energy_per_charge_per_percent
                 Power.ix[i,"Battery_status_1"] = 70
                 if Trading_energy[i]>0:
@@ -90,11 +87,8 @@ for i in range(size_prices[0]):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then switch off the system: triggers js
-            # response = muterun_js('power_off.js')
-            # if response.exitcode == 0:
-            #     print(response.stdout)
             # else:
-            #     sys.stderr.write(response.stderr)
+            #     urllib.request.urlopen("http://192.168.1.11/toggle")
 
 Power['Traded_energy']=Trading_energy
 Power['From']=From
