@@ -29,10 +29,10 @@ contract('Test One Energy Island', function(accounts) {
     }).then(function(result){
       console.log("The current energy balance of account 1 is =", result.toNumber());
 
-      //record.energyTransactRecord.call(address_m1,3, {from: address_m0});
+      record.energyTransactRecord(address_m1,3, {from: address_m0});
       //return record.energyTransactRecord.call(address_m1,3, {from: address_m0});
-      record.setEnergy(address_m1,3);
-      record.setEnergy(address_m0,-3);
+      //record.setEnergy(address_m1,3);
+      //record.setEnergy(address_m0,-3);
     }).then(function(result){
       console.log("the transaction from m1 to m0 is?", result);
       return record.getEnergy.call(address_m0);
@@ -50,4 +50,6 @@ contract('Test One Energy Island', function(accounts) {
       console.log("The current energy balance of account 1 is =", result.toNumber());
     });    
   });
+
+  
 });

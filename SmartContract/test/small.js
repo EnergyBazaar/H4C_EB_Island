@@ -33,4 +33,15 @@ contract('Test One Energy Island', function(accounts) {
       console.log("ID of m0 is (St method)", result);
     });    
   });
+
+  it("Test out the connectivity check", function() {
+    // Here to allocate account information + display them on the screen 
+    return ST.isNodesConnected.call(address_m1,address_m0).then(function(result){
+      console.log("The connectivity between m1 and m0 is", result);
+      return ST.isNodesConnected.call(address_m1,address_m2);
+    }).then(function(result){
+      
+      console.log("The connectivity between m1 and m2 is", result);
+    });    
+  });
 });
