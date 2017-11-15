@@ -67,8 +67,8 @@ for i in range(len(Power)):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then end-do nothing: triggers js
-            else:
-                urllib.request.urlopen("http://192.168.2.89/toggle")
+            #else:
+            #    urllib.request.urlopen("http://192.168.2.89/toggle")
 
         if Power.get_value(i,"Device_1") < Power.get_value(i,"Device_2"):
             # if the higher consumption device has has no storage energy, then charge it
@@ -85,9 +85,9 @@ for i in range(len(Power)):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then switch off the system: triggers js
-            else:
-                urllib.request.urlopen("http://192.168.2.89/toggle")
-                print ("off")
+            #else:
+            #    urllib.request.urlopen("http://192.168.2.89/toggle")
+            #    print ("off")
 
 Power['Traded_energy']=Trading_energy
 Power['From']=From

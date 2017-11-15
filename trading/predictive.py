@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import json, urllib.request
 import csv
-
+from kalman import kalman
 with urllib.request.urlopen("https://www.energy-charts.de/price/week_2017_45.json") as url:
     data = json.loads(url.read().decode())
 all_prices = data[1]["values"]
@@ -38,18 +38,20 @@ Power['Prices_2']=Power.Device_2 * Power.prices/1000
 Power['Battery_status_1']=np.random.randint(1,100,Power.shape[0])
 Power['Battery_status_2']=np.random.randint(1,100,Power.shape[0])
 
-#set limit for prices and store energy
+# set limit for prices and store energy
 price_limit = Power["prices"].mean()
 
-#trade between all the devices
-time_per_charge_1_percent = 1/15 #1 time interval i.e. takes 1 minutes to charge 1%
-energy_per_charge_per_percent = 5 #number of KW energy it takes to charge the device for 1%
+# trade between all the devices
+time_per_charge_1_percent = 1/15  # 1 time interval i.e. takes 1 minutes to charge 1%
+energy_per_charge_per_percent = 5  # number of KW energy it takes to charge the device for 1%
 Trading_energy=[0]*len(Power)
 From = [0]*len(Power)
 To = [0]*len(Power)
+timestamp = [0]*len(Power)
+estimated_load = [0]*len(Power)
 for i in range(len(Power)):
     price = Power.get_value(i, "prices")
-    #Scenario 1: if the price is less than the price limit
+    # Scenario 1: if the price is less than the price limit
     if price < price_limit:
         # check the one with higher consumption need
         if Power.get_value(i,"Device_1") > Power.get_value(i,"Device_2"):
@@ -59,6 +61,8 @@ for i in range(len(Power)):
             # if the higher consumption device has storage energy, then trade to the other device
             if Power.get_value(i,"Battery_status_2")<70:
                 Trading_energy[i] = (70 - Power.ix[i,"Battery_status_2"])/energy_per_charge_per_percent
+                timestamp[i] = Power.get_value(i,"Timestamp")+3600000
+                estimated_load[i]= kalman.kalman_call(i)
                 Power.ix[i,"Battery_status_2"] = 70
                 if Trading_energy[i]>0:
                     From[i]="Device-2"
@@ -67,8 +71,8 @@ for i in range(len(Power)):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then end-do nothing: triggers js
-            else:
-                urllib.request.urlopen("http://192.168.2.89/toggle")
+            # else:
+            #    urllib.request.urlopen("http://192.168.2.89/toggle")
 
         if Power.get_value(i,"Device_1") < Power.get_value(i,"Device_2"):
             # if the higher consumption device has has no storage energy, then charge it
@@ -76,7 +80,9 @@ for i in range(len(Power)):
                 Power.ix[i,"Battery_status_2"] = 70
             # if the higher consumption device has storage energy, then trade to the other device
             if Power.get_value(i,"Battery_status_1")<70:
-                Trading_energy[i] = (70 - Power.ix[i,"Battery_status_1"])/energy_per_charge_per_percent
+                Trading_energy[i] = (70 - Power.ix[i, "Battery_status_1"])/energy_per_charge_per_percent
+                timestamp[i] = Power.get_value(i, "Timestamp")+3600000
+                estimated_load[i]= kalman.kalman_call(i)
                 Power.ix[i,"Battery_status_1"] = 70
                 if Trading_energy[i]>0:
                     From[i]="Device-1"
@@ -85,15 +91,17 @@ for i in range(len(Power)):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then switch off the system: triggers js
-            else:
-                urllib.request.urlopen("http://192.168.2.89/toggle")
+            # else:
+            #     urllib.request.urlopen("http://192.168.2.89/toggle")
 
 Power['Traded_energy']=Trading_energy
 Power['From']=From
 Power['To']=To
+Power['Bidding_timestamp']=timestamp
 Power['Final_price']=Power.prices * Power.Traded_energy/1000
+Power['estimated_load']=estimated_load
 Power.to_csv("Power_2017.csv", encoding='utf-8', index=False)
 
-Power_final = Power.loc[:, ['Timestamp','From','To','Traded_energy','Final_price']]
+Power_final = Power.loc[:, ['Bidding_timestamp','From','To','Traded_energy','Final_price','estimated_load']]
 Power_final = Power_final[Power_final.From != 0]
 Power_final.to_csv("Trading_file.csv", encoding='utf-8', index=False)
