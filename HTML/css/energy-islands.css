@@ -1,0 +1,57 @@
+.ei-heading-first{
+    color: rgb(0,112,192);
+    font-weight: bold;
+}
+
+.ei-heading-second{
+    color: rgb(146,208,80);
+    font-weight: bold;
+}
+
+.ei-heading-second{
+    color: rgb(146,208,80);
+}
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
+    background-color: rgb(214,220,229);
+}
+
+#mainNav.navbar-dark {
+    background-color: rgb(214,220,229);
+}
+
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
+    background-color: rgb(214,220,229);
+}
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a {
+    color: white !important;
+    background-color: rgb(214,220,229);
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a:focus, #mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a:hover {
+        color: white; 
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level,
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-third-level {
+    background-color: rgb(214,220,229);
+} 
+
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #495057;
+}
+
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level > li > a, 
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-third-level > li > a {
+    color: #495057;
+}
+
+#logoPlaceholder{
+    width: 80px;
+    height: 56px;
+    position: absolute;
+    left: 160px;
+    background-image: url(../images/logo-small.png);
+}
