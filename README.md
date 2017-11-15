@@ -1,3 +1,5 @@
+The Release notes: https://github.com/rhythimashinde/H4C_EB_Island/blob/master/Documentation/Release%20Notes%20Energy%20Islands%2020171115.pdf
+
 # Tasks
 
 1. Collect the data for prices 
