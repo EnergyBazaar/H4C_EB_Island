@@ -10,8 +10,5 @@
 Thulasi
 Rhythima
 Chenchen
-Alex
 Alexander
-Arsam
 Manuela
-Karl
