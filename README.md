@@ -14,7 +14,8 @@
 3. HTML: the website front end development [Task 5]
 4. pwrreport: Smart meter which goes into trading logic [Task 2]
 5. Smartcontract: Smart Contract based on the market logic where every device gets an address on the blockchain network [Task 3]
-6. Trading: Trading based on the data from the smart meters and the pricing, included with the predictive part [Task 4, 6]
+6. Trading: Trading based on the data from the smart meters and the pricing  [Task 4]
+7. x_Predictive: Included with the predictive part (only outline, not working) [Task 6]
 
 # Team
 Thulasi
