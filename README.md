@@ -1,16 +1,20 @@
-# H4C_EB_Island
+# Tasks
 
-1. Make the smart contract for the households and devices 
-2. Make the smart contract for the utilities and houeholds
-3. Make the trading logic real time (price and smart meter based) 
-4. Make the front end UI
-5. Make predictive algorithm
-5. Make the business plans and pitches
+1. Collect the data for prices 
+2. Collect the data for the smart meters from the device
+3. Make the smart contract for the households and devices 
+4. Make the trading logic real time (price and smart meter based) 
+5. Make the front end UI
+6. Make predictive algorithm
+7. Make the business plans and pitches, release notes, future plan. 
 
-# Flow
-
-
-
+# Directory
+Data: Pricing data which goes into trading logic [Task 1]
+Documentation: Presentation, Release notes and the Implementation document [Task 7]
+HTML: the website front end development [Task 5]
+pwrreport: Smart meter which goes into trading logic [Task 2]
+Smartcontract: Smart Contract based on the market logic where every device gets an address on the blockchain network [Task 3]
+Trading: Trading based on the data from the smart meters and the pricing, included with the predictive part [Task 4, 6]
 
 # Team
 Thulasi
