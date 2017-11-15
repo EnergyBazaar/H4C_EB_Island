@@ -18,7 +18,7 @@ for num in range(total_devices):
     df.columns = ["Device_"+str(num+1)]
     dfs.append(df)
 merged = pd.concat(dfs,axis=1)
-merged['timestamp'] = df_prices.iloc[:,0]
+merged['Timestamp'] = df_prices.iloc[:,0]
 merged['prices'] = df_prices.iloc[:,1]
 
 # get the price and the battery status for all the devices
@@ -30,8 +30,6 @@ Power['Battery_status_2']=np.random.randint(1,100,Power.shape[0])
 
 #set limit for prices and store energy
 price_limit = Power["prices"].mean()
-
-
 
 #trade between all the devices
 time_per_charge_1_percent = 1/15 #1 time interval i.e. takes 1 minutes to charge 1%
@@ -91,6 +89,6 @@ Power['From']=From
 Power['To']=To
 Power.to_csv("Power_2017.csv", encoding='utf-8', index=False)
 
-Power_final = Power.loc[:, ['timestamp','From','To','Traded_energy','prices']]
+Power_final = Power.loc[:, ['Timestamp','From','To','Traded_energy','prices']]
 Power_final.to_csv("Trading_file.csv", encoding='utf-8', index=False)
 

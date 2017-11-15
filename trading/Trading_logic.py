@@ -27,7 +27,7 @@ for num in range(total_devices):
     df.columns = ["Device_"+str(num+1)]
     dfs.append(df)
 merged = pd.concat(dfs,axis=1)
-merged['timestamp'] = df_prices.iloc[:,0]
+merged['Timestamp'] = df_prices.iloc[:,0]
 merged['prices'] = df_prices.iloc[:,1]
 merged.to_csv('Power_2017.csv')
 
@@ -91,9 +91,9 @@ for i in range(len(Power)):
 Power['Traded_energy']=Trading_energy
 Power['From']=From
 Power['To']=To
+Power['Final_price']=Power.prices * Power.Traded_energy/1000
 Power.to_csv("Power_2017.csv", encoding='utf-8', index=False)
 
-Power_final = Power.loc[:, ['timestamp','From','To','Traded_energy','prices']]
+Power_final = Power.loc[:, ['Timestamp','From','To','Traded_energy','Final_price']]
 Power_final = Power_final[Power_final.From != 0]
 Power_final.to_csv("Trading_file.csv", encoding='utf-8', index=False)
-
