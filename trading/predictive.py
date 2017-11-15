@@ -1,7 +1,16 @@
 import pandas as pd
 import numpy as np
-from Naked.toolshed.shell import execute_js,muterun_js
-import sys
+import json, urllib.request
+import csv
+
+with urllib.request.urlopen("https://www.energy-charts.de/price/week_2017_45.json") as url:
+    data = json.loads(url.read().decode())
+all_prices = data[1]["values"]
+with open('Prices_2017.csv','w',newline='') as csvfile:
+    spamwriter = csv.writer(csvfile)
+    spamwriter.writerow(['Timestamp','prices'])
+    for i in range(len(all_prices)):
+        spamwriter.writerow(all_prices[i])
 
 #get the time and price dataframe
 df_prices = pd.read_csv('Prices_2017.csv')
@@ -20,6 +29,7 @@ for num in range(total_devices):
 merged = pd.concat(dfs,axis=1)
 merged['Timestamp'] = df_prices.iloc[:,0]
 merged['prices'] = df_prices.iloc[:,1]
+merged.to_csv('Power_2017.csv')
 
 # get the price and the battery status for all the devices
 Power = pd.read_csv("Power_2017.csv")
@@ -37,7 +47,7 @@ energy_per_charge_per_percent = 5 #number of KW energy it takes to charge the de
 Trading_energy=[0]*len(Power)
 From = [0]*len(Power)
 To = [0]*len(Power)
-for i in range(size_prices[0]):
+for i in range(len(Power)):
     price = Power.get_value(i, "prices")
     #Scenario 1: if the price is less than the price limit
     if price < price_limit:
@@ -47,7 +57,7 @@ for i in range(size_prices[0]):
             if Power.get_value(i,"Battery_status_1")<70:
                 Power.ix[i,"Battery_status_1"] = 70
             # if the higher consumption device has storage energy, then trade to the other device
-            else:
+            if Power.get_value(i,"Battery_status_2")<70:
                 Trading_energy[i] = (70 - Power.ix[i,"Battery_status_2"])/energy_per_charge_per_percent
                 Power.ix[i,"Battery_status_2"] = 70
                 if Trading_energy[i]>0:
@@ -57,18 +67,15 @@ for i in range(size_prices[0]):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then end-do nothing: triggers js
-            # response = muterun_js('power_off.js')
-            # if response.exitcode == 0:
-            #     print(response.stdout)
-            # else:
-            #     sys.stderr.write(response.stderr)
+            else:
+                urllib.request.urlopen("http://192.168.2.89/toggle")
 
         if Power.get_value(i,"Device_1") < Power.get_value(i,"Device_2"):
             # if the higher consumption device has has no storage energy, then charge it
             if Power.get_value(i,"Battery_status_2")<70:
                 Power.ix[i,"Battery_status_2"] = 70
             # if the higher consumption device has storage energy, then trade to the other device
-            else:
+            if Power.get_value(i,"Battery_status_1")<70:
                 Trading_energy[i] = (70 - Power.ix[i,"Battery_status_1"])/energy_per_charge_per_percent
                 Power.ix[i,"Battery_status_1"] = 70
                 if Trading_energy[i]>0:
@@ -78,17 +85,16 @@ for i in range(size_prices[0]):
                     From[i]=0
                     To[i]=0
             # if the lower consumption device has storage energy, then switch off the system: triggers js
-            # response = muterun_js('power_off.js')
-            # if response.exitcode == 0:
-            #     print(response.stdout)
-            # else:
-            #     sys.stderr.write(response.stderr)
+            else:
+                urllib.request.urlopen("http://192.168.2.89/toggle")
+                print ("off")
 
 Power['Traded_energy']=Trading_energy
 Power['From']=From
 Power['To']=To
+Power['Final_price']=Power.prices * Power.Traded_energy/1000
 Power.to_csv("Power_2017.csv", encoding='utf-8', index=False)
 
-Power_final = Power.loc[:, ['Timestamp','From','To','Traded_energy','prices']]
+Power_final = Power.loc[:, ['Timestamp','From','To','Traded_energy','Final_price']]
+Power_final = Power_final[Power_final.From != 0]
 Power_final.to_csv("Trading_file.csv", encoding='utf-8', index=False)
-
