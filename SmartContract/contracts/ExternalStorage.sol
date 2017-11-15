@@ -2,9 +2,11 @@ pragma solidity ^0.4.8;
 
 contract ExternalStorage {
 
+  address   adminAdr;
+
   struct Portefeuille {
-    int    energyAccumul;
-    int    balance;
+    int     energyAccumul;
+    uint    balance;
     uint    islandID;
   }
   
@@ -16,58 +18,68 @@ contract ExternalStorage {
 
   function ExternalStorage() {
     // constructor
+    adminAdr = msg.sender;
+  }
+
+  modifier adminOnly {
+    if (msg.sender == adminAdr) {
+      _;
+    } else {
+      revert();
+    }
   }
 
   // Simple set and get functions
 
-  function addMeter(address mAdr, uint ilID) {
-    profil[mAdr] = Portefeuille(0,0,ilID);
+  function addMeter(address mAdr, uint ilID) adminOnly {
+    profil[mAdr] = Portefeuille(0,100,ilID);    //By default we allocatoin 100 points into the account
     setConnection(ilID,ilID);
 
     // For now we do not delete the smart meter or disenable it..... (it mighted be a dead smart meter placed in the network)
   }
 
-  function getMeter(address mAdr) returns(uint) {
+  function getMeter(address mAdr) adminOnly returns(uint) {
     return profil[mAdr].islandID;
   }
 
-  function setEnergy(address mAdr, int energyDelta) {
+  function setEnergy(address mAdr, int energyDelta) adminOnly {
     // require... assert the address is in the network...
     profil[mAdr].energyAccumul += energyDelta;
+
   }
 
-  function getEnergy(address mAdr) returns(int) {
+  function getEnergy(address mAdr) adminOnly returns(int) {
     return profil[mAdr].energyAccumul;
   }
 
-  function setBalance(address mAdr, int balanceDelta) {
+  function setBalance(address mAdr, uint balanceDelta) adminOnly {
     // require... assert the address is in the network...
     profil[mAdr].balance += balanceDelta;
   }
 
-  function getBalance(address mAdr) returns(int) {
+  function getBalance(address mAdr) adminOnly returns(uint) {
     return profil[mAdr].balance;
   }
 
-  function setIslandId(address mAdr, uint ilID) {
+  function setIslandId(address mAdr, uint ilID) adminOnly {
     // require... assert the address is in the network...
     profil[mAdr].islandID = ilID;
   }
 
-  function getIslandId(address mAdr) returns(uint) {
+  function getIslandId(address mAdr) adminOnly returns(uint) {
     return profil[mAdr].islandID;
   }
 
-  function setConnection(uint _id1, uint _id2) {
+  function setConnection(uint _id1, uint _id2) adminOnly {
     //require(!getConnection(_id1, _id2));
     isConnected[_id1][_id2] = true;
   }
 
-  function getConnection(uint _id1, uint _id2) returns(bool) {
+  function getConnection(uint _id1, uint _id2) adminOnly returns(bool) {
     return isConnected[_id1][_id2];
   }
 
-  function isNodesConnected(address mAdr1, address mAdr2) returns(bool) {
+  function isNodesConnected(address mAdr1, address mAdr2) adminOnly returns(bool) {
     uint temp1;
     uint temp2;
     temp1 = getIslandId(mAdr1);

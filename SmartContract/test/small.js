@@ -1,6 +1,17 @@
 var Record = artifacts.require("./Record.sol");
 var ExternalStorage = artifacts.require("./ExternalStorage.sol");
 
+/*var provider = new Web3.providers.HttpProvider("http://localhost:8545");
+var contract = require("truffle-contract");
+
+var MyContract = contract({
+  abi: ...,
+  unlinked_binary: ...,
+  address: ..., // optional
+  // many more
+})
+MyContract.setProvider(provider);*/
+
 contract('Test One Energy Island', function(accounts) {
   var address_admin = accounts[0];
   var address_m0 = accounts[1];
@@ -34,14 +45,26 @@ contract('Test One Energy Island', function(accounts) {
     });    
   });
 
-  it("Test out the connectivity check", function() {
+  it("Test out the connectivity check & sending the balance", function() {
     // Here to allocate account information + display them on the screen 
     return ST.isNodesConnected.call(address_m1,address_m0).then(function(result){
       console.log("The connectivity between m1 and m0 is", result);
       return ST.isNodesConnected.call(address_m1,address_m2);
     }).then(function(result){
-      
       console.log("The connectivity between m1 and m2 is", result);
+      return ST.getBalance.call(address_m0);
+    }).then(function(result){
+      console.log("The balance in account 0 is =", result.toNumber());
+      return ST.getBalance.call(address_m1);
+    }).then(function(result){
+      console.log("The balance in account 1 is =", result.toNumber());
+      record.balanceTransactRecord(address_m1,50, {from: address_m0});
+      return ST.getBalance.call(address_m0);
+    }).then(function(result){
+      console.log("The balance in account 0 is =", result.toNumber());
+      return ST.getBalance.call(address_m1);
+    }).then(function(result){
+      console.log("The balance in account 1 is =", result.toNumber());
     });    
   });
 });
