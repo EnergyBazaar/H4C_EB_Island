@@ -87,7 +87,6 @@ for i in range(len(Power)):
             # if the lower consumption device has storage energy, then switch off the system: triggers js
             else:
                 urllib.request.urlopen("http://192.168.2.89/toggle")
-                print ("off")
 
 Power['Traded_energy']=Trading_energy
 Power['From']=From
