@@ -9,12 +9,12 @@
 7. Make the business plans and pitches, release notes, future plan. 
 
 # Directory
-Data: Pricing data which goes into trading logic [Task 1]
-Documentation: Presentation, Release notes and the Implementation document [Task 7]
-HTML: the website front end development [Task 5]
-pwrreport: Smart meter which goes into trading logic [Task 2]
-Smartcontract: Smart Contract based on the market logic where every device gets an address on the blockchain network [Task 3]
-Trading: Trading based on the data from the smart meters and the pricing, included with the predictive part [Task 4, 6]
+1. Data: Pricing data which goes into trading logic [Task 1]
+2. Documentation: Presentation, Release notes and the Implementation document [Task 7]
+3. HTML: the website front end development [Task 5]
+4. pwrreport: Smart meter which goes into trading logic [Task 2]
+5. Smartcontract: Smart Contract based on the market logic where every device gets an address on the blockchain network [Task 3]
+6. Trading: Trading based on the data from the smart meters and the pricing, included with the predictive part [Task 4, 6]
 
 # Team
 Thulasi
